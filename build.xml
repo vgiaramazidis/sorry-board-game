@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SorryGame" basedir="." default="clean-build">
+    <property name="src.dir" value="src"/>
+    <property name="classes.dir" value="build/classes"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="jar.file" value="${dist.dir}/sorry-game.jar"/>
+    <property name="main.class" value="main.Main"/>
+
+    <target name="clean" description="Remove generated build output">
+        <delete dir="build"/>
+        <delete dir="dist"/>
+    </target>
+
+    <target name="compile" description="Compile Java 8 sources">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}"
+               source="1.8" target="1.8" encoding="UTF-8"
+               includeantruntime="false"/>
+        <copy todir="${classes.dir}">
+            <fileset dir="${src.dir}">
+                <exclude name="**/*.java"/>
+                <exclude name="**/*.uml"/>
+                <exclude name="**/*.umlcd"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="jar" depends="compile" description="Create an executable JAR">
+        <mkdir dir="${dist.dir}"/>
+        <jar destfile="${jar.file}" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="clean-build" depends="clean,jar" description="Build from a clean state"/>
+
+    <target name="test" description="Run the Maven/JUnit test suite">
+        <exec executable="mvn" failonerror="true">
+            <arg value="--batch-mode"/>
+            <arg value="test"/>
+        </exec>
+    </target>
+
+    <target name="run" depends="jar" description="Launch the Swing game">
+        <java jar="${jar.file}" fork="true"/>
+    </target>
+</project>

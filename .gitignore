@@ -1,0 +1,22 @@
+# Build output
+/bin/
+/bin_test/
+/build/
+/dist/
+/target/
+/doc/
+*.class
+
+# IDE and operating-system files
+.DS_Store
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+*.iml
+
+# Local game data and temporary files
+.sorry-game/
+*.tmp
+*.log
