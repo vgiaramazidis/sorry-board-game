@@ -71,7 +71,7 @@ public class Controller {
 
 	 * <b>constructor</b>:Creates a new Controller and initializes some coordinates
 
-	 * and card <br />
+	 * and card <br>
 
 	 */
 

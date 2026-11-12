@@ -93,7 +93,7 @@ public class Board {
 
 	 * <b>constructor</b>: Creates a new Window and initializes some buttons and
 
-	 * panels <br />
+	 * panels <br>
 
 	 */
 
@@ -334,7 +334,7 @@ public class Board {
 
 	/**
 
-	 * <b>Transformer</b>:changes the info box and set the select player <br />
+	 * <b>Transformer</b>:changes the info box and set the select player <br>
 
 	 * <p>
 
@@ -503,7 +503,7 @@ public class Board {
 	}
 	/**
 
-	 * <b>Transformer</b>:shows the panel of the winner <br />
+	 * <b>Transformer</b>:shows the panel of the winner <br>
 
 	 * <p>
 
@@ -547,7 +547,7 @@ public class Board {
 
 	/**
 
-	 * <b>Transformer</b>:initializes some buttons and labels <br />
+	 * <b>Transformer</b>:initializes some buttons and labels <br>
 
 	 * <p>
 
@@ -962,7 +962,7 @@ public class Board {
 
 	/**
 
-	 * <b>Transformer(mutative)</b>:sets some buttons and labels <br />
+	 * <b>Transformer(mutative)</b>:sets some buttons and labels <br>
 
 	 * <p>
 
@@ -1023,7 +1023,7 @@ public class Board {
 
 	/**
 
-	 * <b>Observer</b>:find the right panel accordingly the card<br />
+	 * <b>Observer</b>:find the right panel accordingly the card<br>
 
 	 * <p>
 
@@ -1093,7 +1093,7 @@ public class Board {
 
 	/**
 
-	 * <b>Observer</b>:shows the dialog panel accordingly the card 8,11,12<br />
+	 * <b>Observer</b>:shows the dialog panel accordingly the card 8,11,12<br>
 
 	 * <p>
 
@@ -1227,7 +1227,7 @@ public class Board {
 
 	/**
 
-	 * <b>Observer</b>:shows the dialog panel for choose the selectable pawn<br />
+	 * <b>Observer</b>:shows the dialog panel for choose the selectable pawn<br>
 
 	 * <p>
 
@@ -1365,7 +1365,7 @@ public class Board {
 
 	 * <b>Observer</b>:shows the dialog panel for choose the enemy selectable pawn
 
-	 * for SorryCard and 11<br />
+	 * for SorryCard and 11<br>
 
 	 * <p>
 
@@ -1558,7 +1558,7 @@ public class Board {
 
 	 * <b>Observer</b>:shows the dialog panel for choose forward or backward
 
-	 * accordingly the card<br />
+	 * accordingly the card<br>
 
 	 * <p>
 
