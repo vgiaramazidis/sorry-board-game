@@ -16,6 +16,7 @@ import model.save.LocationType;
 import model.save.PawnPosition;
 
 
+/** Coordinates game rules, player state, movement, captures, and persistence. */
 public class Controller {
 
 	private Deck deck = new Deck();
@@ -78,6 +79,11 @@ public class Controller {
 		this(2);
 	}
 
+	/**
+	 * Creates a complete board and the requested number of players.
+	 *
+	 * @param playerCount number of players, from 2 through 4
+	 */
 	public Controller(int playerCount) {
 		setPlayer(playerCount);
 
@@ -233,6 +239,11 @@ public class Controller {
 		return copySafetySquares(safetyTracks[0]);
 	}
 
+	/**
+	 * Returns Red's complete private route.
+	 *
+	 * @return Red player's Safety and Home route
+	 */
 	public SafetyTrack getRedSafetyTrack() {
 		return safetyTracks[0];
 	}
@@ -258,18 +269,39 @@ public class Controller {
 		return copySafetySquares(safetyTracks[1]);
 	}
 
+	/**
+	 * Returns Yellow's complete private route.
+	 *
+	 * @return Yellow player's Safety and Home route
+	 */
 	public SafetyTrack getYellowSafetyTrack() {
 		return safetyTracks[1];
 	}
 
+	/**
+	 * Returns Blue's protected squares.
+	 *
+	 * @return a copy of Blue player's Safety squares
+	 */
 	public Safety[] getSafetyBlue() {
 		return copySafetySquares(safetyTracks[2]);
 	}
 
+	/**
+	 * Returns Green's protected squares.
+	 *
+	 * @return a copy of Green player's Safety squares
+	 */
 	public Safety[] getSafetyGreen() {
 		return copySafetySquares(safetyTracks[3]);
 	}
 
+	/**
+	 * Returns a player's Safety and Home route.
+	 *
+	 * @param playerIndex zero-based player index
+	 * @return requested route
+	 */
 	public SafetyTrack getSafetyTrack(int playerIndex) {
 		if (playerIndex < 0 || playerIndex >= safetyTracks.length) {
 			throw new IllegalArgumentException("Invalid player index");
@@ -277,6 +309,12 @@ public class Controller {
 		return safetyTracks[playerIndex];
 	}
 
+	/**
+	 * Returns a copy of a player's Start slots.
+	 *
+	 * @param playerIndex zero-based player index
+	 * @return two Start squares
+	 */
 	public Start[] getStartSquares(int playerIndex) {
 		if (playerIndex < 0 || playerIndex >= starts.length) {
 			throw new IllegalArgumentException("Invalid player index");
@@ -284,6 +322,12 @@ public class Controller {
 		return starts[playerIndex].clone();
 	}
 
+	/**
+	 * Returns a copy containing a player's Home slots.
+	 *
+	 * @param playerIndex zero-based player index
+	 * @return two Home squares
+	 */
 	public Home[] getHomeSquares(int playerIndex) {
 		if (playerIndex < 0 || playerIndex >= safetyTracks.length) {
 			throw new IllegalArgumentException("Invalid player index");
@@ -367,6 +411,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Validates and restores all model state from a snapshot.
+	 *
+	 * @param snapshot saved state matching this game's player count
+	 * @throws IllegalArgumentException if the snapshot is inconsistent
+	 */
 	public void restoreSnapshot(GameSnapshot snapshot) {
 		if (snapshot == null) {
 			throw new IllegalArgumentException("Snapshot cannot be null");
@@ -444,6 +494,12 @@ public class Controller {
 		numSelectPawn = 0;
 	}
 
+	/**
+	 * Captures the current logical state between turns.
+	 *
+	 * @param nextPlayerIndex zero-based player who will draw next
+	 * @return immutable validated snapshot
+	 */
 	public GameSnapshot createSnapshot(int nextPlayerIndex) {
 		List<PawnPosition> positions = new ArrayList<>();
 
@@ -606,6 +662,10 @@ public class Controller {
 
 	 * @return the chosen pawn
 
+	 * @param num zero-based pawn index
+
+	 * @param numPlayer zero-based player index
+
 	 */
 
 	public Pawn getChoosePawn(int num, int numPlayer) {
@@ -644,6 +704,11 @@ public class Controller {
 		setPlayer(2);
 	}
 
+	/**
+	 * Recreates the player array with two pawns per player.
+	 *
+	 * @param playerCount number of players, from 2 through 4
+	 */
 	public void setPlayer(int playerCount) {
 		if (playerCount < 2 || playerCount > 4) {
 			throw new IllegalArgumentException("Player count must be between 2 and 4");
@@ -676,6 +741,11 @@ public class Controller {
 
 	}
 
+	/**
+	 * Returns the configured multiplayer size.
+	 *
+	 * @return number of active players
+	 */
 	public int getPlayerCount() {
 		return players.length;
 	}
@@ -899,6 +969,11 @@ public class Controller {
 	/**
 	 * <b>Observer</b>: Checks if pawn landed on a StartSlide and triggers slide action
 	 */
+	/**
+	 * Activates a slide when the pawn occupies an opponent-colored entrance.
+	 *
+	 * @param p pawn whose destination should be checked
+	 */
 	public void checkSlide(Pawn p) {
 		for (int i = 0; i < 60; i++) {
 			if (boxes[i] instanceof StartSlide && boxes[i] == p.getCurrentSquare()) {
@@ -908,6 +983,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Tests whether the current card has a legal single-pawn action.
+	 *
+	 * @param pawnIndex zero-based current-player pawn index
+	 * @return {@code true} when that pawn can legally act
+	 */
 	public boolean canMovePawn(int pawnIndex) {
 		if (numSelectPlayer < 0 || numSelectPlayer >= players.length
 				|| pawnIndex < 0 || pawnIndex >= players[numSelectPlayer].getPawns().length) {
@@ -960,6 +1041,13 @@ public class Controller {
 		return card.findBox(pawn, boxes, cardNumber, safetyTrack) != null;
 	}
 
+	/**
+	 * Tests a two-player card 11 or Sorry! interaction.
+	 *
+	 * @param ownPawnIndex current player's pawn index
+	 * @param enemyPawnIndex opponent pawn index
+	 * @return whether the selected interaction is legal
+	 */
 	public boolean canSwapWithEnemy(int ownPawnIndex, int enemyPawnIndex) {
 		if (players.length != 2) {
 			return false;
@@ -968,6 +1056,14 @@ public class Controller {
 				ownPawnIndex, (numSelectPlayer + 1) % players.length, enemyPawnIndex);
 	}
 
+	/**
+	 * Tests a card 11 swap or Sorry! replacement against a specific opponent.
+	 *
+	 * @param ownPawnIndex current player's pawn index
+	 * @param enemyPlayerIndex opponent player index
+	 * @param enemyPawnIndex opponent pawn index
+	 * @return whether the selected interaction is legal
+	 */
 	public boolean canSwapWithEnemy(
 			int ownPawnIndex, int enemyPlayerIndex, int enemyPawnIndex) {
 		if (numSelectPlayer < 0 || numSelectPlayer >= players.length
@@ -992,6 +1088,11 @@ public class Controller {
 		return isOuterTrackSquare(ownPawn.getCurrentSquare());
 	}
 
+	/**
+	 * Tests every distribution of seven steps between the current player's pawns.
+	 *
+	 * @return whether any legal split-card-7 combination exists
+	 */
 	public boolean canSplitSeven() {
 		if (numSelectPlayer < 0 || numSelectPlayer >= players.length
 				|| deck.getCard().getCard() != 7) {
@@ -1015,6 +1116,11 @@ public class Controller {
 		return false;
 	}
 
+	/**
+	 * Tests every action offered by the current card.
+	 *
+	 * @return whether the current player can legally use the current card
+	 */
 	public boolean hasLegalMove() {
 		if (numSelectPlayer < 0 || numSelectPlayer >= players.length) {
 			return false;
@@ -1044,6 +1150,12 @@ public class Controller {
 		return false;
 	}
 
+	/**
+	 * Tests one current-player pawn against every opponent pawn.
+	 *
+	 * @param ownPawnIndex current player's pawn index
+	 * @return whether at least one legal swap or replacement exists
+	 */
 	public boolean canSwapWithAnyEnemy(int ownPawnIndex) {
 		for (int enemyPlayer = 0; enemyPlayer < players.length; enemyPlayer++) {
 			if (enemyPlayer == numSelectPlayer) {
@@ -1115,6 +1227,14 @@ public class Controller {
 		return makeMove(allPawns, numPawn, MoveDirection.FORWARD);
 	}
 
+	/**
+	 * Applies the current card in the requested direction.
+	 *
+	 * @param allPawns whether the card should move both eligible pawns
+	 * @param numPawn selected pawn index for a single-pawn action
+	 * @param direction requested movement direction
+	 * @return {@code 1} when movement succeeded; otherwise {@code 0}
+	 */
 	public int makeMove(boolean allPawns, int numPawn, MoveDirection direction) {
 		if (numSelectPlayer < 0 || numSelectPlayer >= players.length
 				|| direction == null
@@ -1179,6 +1299,13 @@ public class Controller {
 
 	}
 
+	/**
+	 * Applies a split card 7 and performs resulting slides and captures.
+	 *
+	 * @param firstPawnIndex pawn receiving the first share
+	 * @param firstSteps steps assigned to that pawn, from 1 through 6
+	 * @return {@code 1} when both moves succeeded; otherwise {@code 0}
+	 */
 	public int makeSevenSplit(int firstPawnIndex, int firstSteps) {
 		if (numSelectPlayer < 0 || numSelectPlayer >= players.length) {
 			return 0;
@@ -1247,6 +1374,14 @@ public class Controller {
 				numPawn, (numSelectPlayer + 1) % players.length, numEnemyPawn);
 	}
 
+	/**
+	 * Applies card 11 or Sorry! against a selected opponent pawn.
+	 *
+	 * @param numPawn current player's pawn index
+	 * @param enemyPlayerIndex selected opponent index
+	 * @param numEnemyPawn selected opponent pawn index
+	 * @return {@code 1} when the action succeeded; otherwise {@code 0}
+	 */
 	public int makeMove(int numPawn, int enemyPlayerIndex, int numEnemyPawn) {
 		if (numSelectPlayer < 0 || numSelectPlayer >= players.length
 				|| enemyPlayerIndex < 0 || enemyPlayerIndex >= players.length

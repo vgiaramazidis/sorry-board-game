@@ -1,5 +1,6 @@
 package model.Square;
 
+/** A normal square on the shared outer track. */
 public class Simple extends Square {
 	/**
 	 * <b>constructor</b>:Constructs a new Simple an sets the coordinates and set

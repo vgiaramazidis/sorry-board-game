@@ -10,13 +10,28 @@ import model.Square.Square;
 
 
 
+/** Base contract for every card action in the deck. */
 public abstract class Card {
 	private String description;
 
+	/** Creates a card whose concrete type supplies its rules and value. */
+	protected Card() {
+	}
+
+	/**
+	 * Sets the player-facing explanation of the card action.
+	 *
+	 * @param description player-facing explanation
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	/**
+	 * Returns the player-facing explanation of the card action.
+	 *
+	 * @return card description
+	 */
 	public String getDescription() {
 		return this.description;
 	}
@@ -50,6 +65,8 @@ public abstract class Card {
 	 * @param boxes the array of boxes
 
 	 * @param card  the number of card
+
+	 * @param safetyTrack the moving pawn's Safety and Home route
 
 	 * @return returns the box if its succeed null in failure
 
@@ -125,10 +142,27 @@ public abstract class Card {
 
 
 
+	/**
+	 * Applies the card to one selected pawn.
+	 *
+	 * @param p selected pawn
+	 * @param b outer-track squares
+	 * @param safetyTrack selected pawn's Safety and Home route
+	 * @return {@code 1} when a move was made; otherwise {@code 0}
+	 */
 	public abstract int Act(Pawn p, Square[] b, SafetyTrack safetyTrack);
 
 
 
+	/**
+	 * Applies a card action involving two pawns.
+	 *
+	 * @param p1 first pawn
+	 * @param p2 second pawn
+	 * @param b outer-track squares
+	 * @param safetyTrack current player's Safety and Home route
+	 * @return {@code 1} when an action was made; otherwise {@code 0}
+	 */
 	public abstract int Act(Pawn p1, Pawn p2, Square[] b, SafetyTrack safetyTrack);
 
 

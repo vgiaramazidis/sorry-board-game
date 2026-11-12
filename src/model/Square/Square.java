@@ -2,11 +2,7 @@ package model.Square;
 
 import model.Pawn;
 
-/**
-
- * @version 1.0
-
- */
+/** Base type for every logical board location. */
 
 public abstract class Square {
 
@@ -17,6 +13,10 @@ public abstract class Square {
 	private int y;
 
 	private Pawn occupant;
+
+	/** Creates an initially empty square. */
+	protected Square() {
+	}
 
 
 
@@ -88,6 +88,11 @@ public abstract class Square {
 		return occupant;
 	}
 
+	/**
+	 * Changes the pawn occupying this square.
+	 *
+	 * @param occupant new occupant, or {@code null} when empty
+	 */
 	public void setOccupant(Pawn occupant) {
 		this.occupant = occupant;
 	}
@@ -102,7 +107,7 @@ public abstract class Square {
 
 	 *
 
-	 * @param c
+	 * @param c encoded square or occupant color
 
 	 */
 
@@ -124,7 +129,7 @@ public abstract class Square {
 
 	 *
 
-	 * @param x
+	 * @param x horizontal board coordinate
 
 	 */
 
@@ -146,7 +151,7 @@ public abstract class Square {
 
 	 *
 
-	 * @param y
+	 * @param y vertical board coordinate
 
 	 */
 

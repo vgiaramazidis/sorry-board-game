@@ -1,5 +1,6 @@
 package model.Square.Slide;
 
+/** A square crossed between a slide's entrance and end. */
 public class InternalSlide extends Slide {
 	/**
 	 * <b>constructor</b>:Constructs a new InternalSlide and sets the coordinates

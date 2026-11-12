@@ -11,7 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class SnapshotStore {
+/** Reads and atomically writes the versioned properties-based save format. */
+public final class SnapshotStore {
+    private SnapshotStore() {
+        // Utility class.
+    }
+
+    /**
+     * Writes a snapshot through a temporary sibling file and replaces the target.
+     *
+     * @param file destination save file
+     * @param snapshot validated game state to write
+     * @throws IOException if the file cannot be written or replaced
+     */
     public static void save(Path file, GameSnapshot snapshot) throws IOException {
         if (file == null || snapshot == null) {
             throw new IllegalArgumentException("File and snapshot cannot be null");
@@ -70,6 +82,13 @@ public class SnapshotStore {
         }
     }
 
+    /**
+     * Loads and validates a version 1 or version 2 snapshot.
+     *
+     * @param file snapshot file to read
+     * @return validated snapshot
+     * @throws IOException if the file is missing, malformed, or inconsistent
+     */
     public static GameSnapshot load(Path file) throws IOException {
         if (file == null) {
             throw new IllegalArgumentException("File cannot be null");

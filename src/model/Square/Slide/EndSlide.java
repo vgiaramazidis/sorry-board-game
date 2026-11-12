@@ -1,5 +1,6 @@
 package model.Square.Slide;
 
+/** The final destination square of a slide. */
 public class EndSlide extends Slide {
 	/**
 	 * <b>constructor</b>:Constructs a new EndSlide and sets the coordinates for

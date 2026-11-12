@@ -1,5 +1,6 @@
 package model.Square;
 
+/** A player-specific destination slot occupied after exact Home entry. */
 public class Home extends Square {
 	/**
 	 * <b>constructor</b>:Constructs a new Home an sets the coordinates

@@ -9,17 +9,41 @@ import model.Square.Slide.StartSlide;
 
 
 
+/** Base class for cards represented by a numeric movement value. */
 public abstract class NumberCard extends Card {
 	private int number;
 
+	/** Creates a numbered card whose subclass sets the value. */
+	protected NumberCard() {
+	}
+
+	/**
+	 * Applies a directional movement; subclasses override when backward movement differs.
+	 *
+	 * @param pawn selected pawn
+	 * @param boxes outer-track squares
+	 * @param safetyTrack selected pawn's Safety and Home route
+	 * @param direction requested movement direction
+	 * @return {@code 1} when the pawn moved; otherwise {@code 0}
+	 */
 	public int Act(Pawn pawn, Square[] boxes, SafetyTrack safetyTrack, MoveDirection direction) {
 		return Act(pawn, boxes, safetyTrack);
 	}
 
+	/**
+	 * Returns the numeric value represented by this card.
+	 *
+	 * @return numeric card value
+	 */
 	public int getNumber() {
 		return number;
 	}
 
+	/**
+	 * Sets the numeric value represented by this card.
+	 *
+	 * @param number numeric card value
+	 */
 	public void setNumber(int number) {
 		this.number = number;
 	}
@@ -59,6 +83,8 @@ public abstract class NumberCard extends Card {
 
 	 * @param card  number of card
 
+	 * @param safetyTrack the moving pawn's Safety and Home route
+
 	 * @return 1 in success and 0 in failure
 
 	 */
@@ -80,6 +106,14 @@ public abstract class NumberCard extends Card {
 
 	}
 
+	/**
+	 * Updates occupancy and places one pawn on a validated destination.
+	 *
+	 * @param pawn pawn to move
+	 * @param destination validated destination
+	 * @param boxes outer-track squares
+	 * @param safetyTrack pawn's Safety and Home route
+	 */
 	protected void movePawnTo(Pawn pawn, Square destination, Square[] boxes, SafetyTrack safetyTrack) {
 		Square source = pawn.getCurrentSquare();
 		clearSquare(source, boxes, safetyTrack);
@@ -87,6 +121,16 @@ public abstract class NumberCard extends Card {
 		pawn.moveTo(destination);
 	}
 
+	/**
+	 * Updates occupancy for two pawns that move simultaneously.
+	 *
+	 * @param pawn1 first pawn
+	 * @param destination1 first destination
+	 * @param pawn2 second pawn
+	 * @param destination2 second destination
+	 * @param boxes outer-track squares
+	 * @param safetyTrack current player's Safety and Home route
+	 */
 	protected void movePawnsTo(Pawn pawn1, Square destination1, Pawn pawn2, Square destination2,
 			Square[] boxes, SafetyTrack safetyTrack) {
 		Square source1 = pawn1.getCurrentSquare();

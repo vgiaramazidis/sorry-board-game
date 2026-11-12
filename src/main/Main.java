@@ -5,7 +5,19 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Starts the Swing application and collects the new-game options.
+ */
 public class Main {
+	private Main() {
+		// Application entry-point class.
+	}
+
+	/**
+	 * Opens the player-count and first-player dialogs on the Swing event thread.
+	 *
+	 * @param args command-line arguments; currently unused
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
 			String[] playerCounts = {"2", "3", "4"};

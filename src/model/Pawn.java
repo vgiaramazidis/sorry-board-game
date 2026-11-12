@@ -3,7 +3,7 @@ package model;
 import model.Square.Square;
 import model.Square.Home;
 
-
+/** Represents one player's movable piece and its current logical square. */
 public class Pawn {
 
 	private static final int[] START_EXIT_INDEXES = {56, 26, 41, 11};
@@ -35,6 +35,12 @@ public class Pawn {
 		this(c, 0);
 	}
 
+	/**
+	 * Creates a pawn assigned to a specific Home slot.
+	 *
+	 * @param c zero-based player color
+	 * @param homeSlotIndex Home slot reserved for this pawn
+	 */
 	public Pawn(int c, int homeSlotIndex) {
 		setColor(c);
 		if (homeSlotIndex < 0 || homeSlotIndex > 1) {
@@ -43,10 +49,20 @@ public class Pawn {
 		this.homeSlotIndex = homeSlotIndex;
 	}
 
+	/**
+	 * Returns this pawn's logical board location.
+	 *
+	 * @return currently occupied square
+	 */
 	public Square getCurrentSquare() {
 		return currentSquare;
 	}
 
+	/**
+	 * Assigns the pawn's permanent Start square and places it there.
+	 *
+	 * @param startSquare this pawn's Start slot
+	 */
 	public void setStartSquare(Square startSquare) {
 		if (startSquare == null) {
 			throw new IllegalArgumentException("A pawn start square cannot be null.");
@@ -60,6 +76,11 @@ public class Pawn {
 		startSquare.setOccupant(this);
 	}
 
+	/**
+	 * Moves the pawn to an already validated destination square.
+	 *
+	 * @param square destination square
+	 */
 	public void moveTo(Square square) {
 		if (square == null) {
 			throw new IllegalArgumentException("A pawn destination cannot be null.");
@@ -114,10 +135,20 @@ public class Pawn {
 
 	}
 
+	/**
+	 * Returns the Home slot reserved for this pawn.
+	 *
+	 * @return zero-based Home slot index
+	 */
 	public int getHomeSlotIndex() {
 		return homeSlotIndex;
 	}
 
+	/**
+	 * Returns the color-specific exit from Start.
+	 *
+	 * @return outer-track exit index
+	 */
 	public int getStartExitIndex() {
 		if (color < 0 || color >= START_EXIT_INDEXES.length) {
 			throw new IllegalStateException("Pawn has an invalid player color");
@@ -183,10 +214,16 @@ public class Pawn {
 
 	 */
 
+	/**
+	 * Tests whether this pawn has completed its route.
+	 *
+	 * @return {@code true} when the pawn occupies its player's Home
+	 */
 	public boolean isHome() {
 		return currentSquare instanceof Home && currentSquare.getColor() == color + 1;
 	}
 
+	/** Returns a captured pawn to its assigned Start slot. */
 	public void returnToStart() {
 		if (currentSquare != null && currentSquare != startSquare
 				&& currentSquare.getOccupant() == this) {

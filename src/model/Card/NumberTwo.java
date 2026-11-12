@@ -10,7 +10,9 @@ import model.Square.Square;
 
 
 
+/** Card 2: leaves Start or moves two squares and grants another turn. */
 public class NumberTwo extends NumberCard {
+	/** Creates card 2. */
 	public NumberTwo() {
 		setNumber(2);
 		setDescription("Move a pawn from Start or 2 squares forward. Play again!");

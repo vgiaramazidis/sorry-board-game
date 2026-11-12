@@ -1,5 +1,6 @@
 package model.Square;
 
+/** One of the two starting slots reserved for a player. */
 public class Start extends Square {
 	/**
 	 * <b>constructor</b>:Constructs a new Start an sets the coordinates for

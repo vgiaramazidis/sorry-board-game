@@ -10,7 +10,9 @@ import model.Square.Square;
 
 
 
+/** Card 1: leaves Start or moves one square forward. */
 public class NumberOne extends NumberCard {
+	/** Creates card 1. */
 	public NumberOne() {
 		setNumber(1);
 		setDescription("Move a pawn from Start or 1 square forward.");

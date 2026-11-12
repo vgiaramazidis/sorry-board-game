@@ -17,6 +17,7 @@ A desktop implementation of the **Sorry!** board game, written with Java 8 and S
 - Slides, captures, Safety zones, exact Home entry, split 7, and repeat turns
 - Save and resume between turns using a validated, human-readable snapshot file
 - JUnit regression tests for the model and controller
+- Warning-free API documentation and a generated Javadoc JAR
 - Java 8-compatible source and bytecode
 
 The implementation follows the assignment rules, which intentionally differ in places from the commercial board game. For example, cards 3 and 5 move every pawn that can legally move, while cards 8 and 12 may be exchanged for another draw.
@@ -82,7 +83,7 @@ The board uses a fixed 1100 × 780 coordinate system because the supplied artwor
 
 ## Status
 
-The non-GUI rules have automated coverage and the Maven build is suitable for continuous integration. A macOS visual smoke test covered game setup, drawing and folding, turn advancement, pawn selection, pawn movement, dialog layout, and the repeat turn granted by card 2. Complete 3- and 4-player matches are still recommended as final manual checks.
+The non-GUI rules have automated coverage and the Maven build is suitable for continuous integration. Strict Javadoc generation is enforced with warnings treated as build failures. A macOS visual smoke test covered game setup, drawing and folding, turn advancement, pawn selection, pawn movement, dialog layout, and the repeat turn granted by card 2. Complete 3- and 4-player matches are still recommended as final manual checks.
 
 ## License
 

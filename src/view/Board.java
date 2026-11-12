@@ -30,6 +30,12 @@ import model.save.SnapshotStore;
 
 
 
+/**
+ * Swing presentation and interaction layer for a local Sorry!-style game.
+ *
+ * <p>The board delegates rule decisions and persistent state to
+ * {@link Controller}, while it owns dialogs, labels, and turn interactions.</p>
+ */
 public class Board {
 
 	private static final int PAWN_ICON_SIZE = 40;
@@ -95,10 +101,21 @@ public class Board {
 		this(2, 0);
 	}
 
+	/**
+	 * Creates a game with Player 1 drawing first.
+	 *
+	 * @param playerCount number of players, from 2 through 4
+	 */
 	public Board(int playerCount) {
 		this(playerCount, 0);
 	}
 
+	/**
+	 * Creates and displays a game window.
+	 *
+	 * @param playerCount number of players, from 2 through 4
+	 * @param firstPlayerIndex zero-based player who draws first
+	 */
 	public Board(int playerCount, int firstPlayerIndex) {
 
 		imageURL = getClass().getResource("/image/icon.png");
@@ -1491,6 +1508,11 @@ public class Board {
 	}
 
 
+	/**
+	 * Guides the user through selecting and applying a split card 7.
+	 *
+	 * @return {@code true} when a split was applied; {@code false} when cancelled
+	 */
 	public boolean chooseSevenSplitDialog() {
 		while (true) {
 			Object[] pawnOptions = {"Pawn 1", "Pawn 2"};

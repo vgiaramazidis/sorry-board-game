@@ -1,7 +1,6 @@
 package model;
 
-
-
+/** Owns the two pawns belonging to one player. */
 public class Player {
 
 	private Pawn[] p = new Pawn[2];

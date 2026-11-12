@@ -10,7 +10,11 @@ import model.Square.Square;
 
 
 
+/** Base for assignment cards that move every pawn able to move. */
 public abstract class SimpleCard extends NumberCard {
+	/** Creates a multi-pawn numbered card. */
+	protected SimpleCard() {
+	}
 
 	/**
 
@@ -47,6 +51,8 @@ public abstract class SimpleCard extends NumberCard {
 	 * @param boxes the array of boxes
 
 	 * @param card  the number of card
+
+	 * @param safetyTrack the current player's Safety and Home route
 
 	 * @return 1 in success and 0 in failure
 

@@ -10,7 +10,9 @@ import model.Square.Square;
 
 
 
+/** Card 4: moves one selected pawn four squares backward. */
 public class NumberFour extends NumberCard {
+	/** Creates card 4. */
 	public NumberFour() {
 		setNumber(4);
 		setDescription("Move a pawn 4 squares backward.");

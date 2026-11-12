@@ -11,7 +11,7 @@ This checklist is based on `HY252-Project_2023_Sorry!_Game.pdf`, the supplied 20
 | MVC separation | Met with limitation | Separate packages exist; `Board` is the view and `Controller` mediates the model. Model squares still store view coordinates. |
 | Abstract `Card` and `Square` hierarchies | Met | `model.Card.Card`, `NumberCard`, concrete cards; `model.Square.Square` and concrete square/slide classes |
 | Required core classes (`Square`, `Card`, `Deck`, `Pawn`, `Player`, `Controller`, View) | Met | Corresponding source classes; view is `view.Board` |
-| Javadoc with pre/postconditions | Partially met | Most original public classes/methods have Javadoc, but quality and completeness are inconsistent. Maven compilation succeeds; a future documentation pass should standardize all public APIs. |
+| Javadoc with pre/postconditions | Met | Every public API is documented; strict `javadoc -Xdoclint:all` reports zero warnings, and Maven attaches a Javadoc JAR with `failOnWarnings` enabled. |
 | JUnit tests | Met | Tests under `test/`; `mvn test` runs 16 tests |
 | Initialize 16×16-style board, cards, players, and pawns | Met | `Controller` builds 60 perimeter squares plus player areas; `Deck` builds 44 cards; `Player`/`Pawn` setup is tested |
 | Select who plays first (for example, randomly) | Met | `Main.main` offers explicit player choice or Random |

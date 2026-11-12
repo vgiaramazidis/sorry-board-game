@@ -3,6 +3,7 @@ package model.Square.Slide;
 import model.*;
 import model.Square.Square;
 
+/** A colored slide entrance that moves opponents to the slide end. */
 public class StartSlide extends Slide {
 	private int length; // 4 or 5
 	/**
@@ -90,6 +91,8 @@ public class StartSlide extends Slide {
 	 * <b> Precondition:</b>the c must be one of {0,1,2} and the l must be one of {4,5}
 	 *
 	 *
+	 * @param x horizontal board coordinate
+	 * @param y vertical board coordinate
 	 * @param c the color
 	 * @param l the length
 	 */

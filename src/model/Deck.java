@@ -10,6 +10,7 @@ import model.Card.*;
 
 
 
+/** Maintains the shuffled 44-card draw order and current draw position. */
 public class Deck {
 	private static final int[] CARD_VALUES = {1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12};
 
@@ -42,6 +43,12 @@ public class Deck {
 		}
 		initializeCards(drawOrder);
 	}
+	/**
+	 * Restores a deck from a complete draw order and next-card index.
+	 *
+	 * @param drawOrder all 44 card values in draw order
+	 * @param nextCardIndex index of the next card to draw
+	 */
 	public Deck(int[] drawOrder, int nextCardIndex){
 		if (drawOrder == null) {
             throw new IllegalArgumentException("Deck drawOrder cannot be null");
@@ -133,6 +140,11 @@ public class Deck {
 	}
 
 
+	/**
+	 * Returns the complete deck without exposing its internal array.
+	 *
+	 * @return a copy of all 44 card values in draw order
+	 */
 	public int[] getDrawOrder() {
 		int[] drawOrder = new int[cards.length];
 		for (int i = 0; i < cards.length; i++) {
@@ -141,6 +153,11 @@ public class Deck {
 		return drawOrder;
 	}
 
+	/**
+	 * Returns the current position within the draw order.
+	 *
+	 * @return index of the next card to draw
+	 */
 	public int getNextCardIndex() {
 		return cards.length - sum();
 	}

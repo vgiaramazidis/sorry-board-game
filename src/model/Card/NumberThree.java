@@ -10,7 +10,9 @@ import model.Square.Square;
 
 
 
+/** Card 3: moves every pawn that can legally advance three squares. */
 public class NumberThree extends SimpleCard {
+	/** Creates card 3. */
 	public NumberThree() {
 		setNumber(3);
 		setDescription("Move a pawn 3 squares forward.");

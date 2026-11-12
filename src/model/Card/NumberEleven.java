@@ -11,7 +11,9 @@ import model.Square.Slide.StartSlide;
 
 
 
+/** Card 11: moves forward eleven or swaps with an opponent on the outer track. */
 public class NumberEleven extends NumberCard {
+	/** Creates card 11. */
 	public NumberEleven() {
 		setNumber(11);
 		setDescription("Move a pawn 11 squares forward, or swap with an opponent's pawn.");

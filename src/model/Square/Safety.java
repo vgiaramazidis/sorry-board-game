@@ -1,5 +1,6 @@
 package model.Square;
 
+/** A protected square on one player's colored route toward Home. */
 public class Safety extends Square {
 	/**
 	 * <b>constructor</b>:Constructs a new Safety an sets the coordinates

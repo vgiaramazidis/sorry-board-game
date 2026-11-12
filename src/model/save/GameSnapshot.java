@@ -3,6 +3,9 @@ package model.save;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Immutable, validated representation of all state needed to resume a game.
+ */
 public class GameSnapshot {
     private final List<PawnPosition> pawnPositions;
     private final int[] deckOrder;
@@ -10,6 +13,14 @@ public class GameSnapshot {
     private final int nextPlayerIndex;
     private final int playerCount;
 
+    /**
+     * Creates a snapshot and infers the player count from its pawn records.
+     *
+     * @param pawnPositions logical location of every pawn
+     * @param deckOrder complete 44-card draw order
+     * @param nextCardIndex index of the next card to draw
+     * @param nextPlayerIndex zero-based player who draws next
+     */
     public GameSnapshot(
             List<PawnPosition> pawnPositions, int[] deckOrder,
             int nextCardIndex, int nextPlayerIndex) {
@@ -17,6 +28,16 @@ public class GameSnapshot {
                 inferPlayerCount(pawnPositions));
     }
 
+    /**
+     * Creates and validates a complete snapshot.
+     *
+     * @param pawnPositions logical location of every pawn
+     * @param deckOrder complete 44-card draw order
+     * @param nextCardIndex index of the next card to draw
+     * @param nextPlayerIndex zero-based player who draws next
+     * @param playerCount number of players, from 2 through 4
+     * @throws IllegalArgumentException if the supplied state is inconsistent
+     */
     public GameSnapshot(
             List<PawnPosition> pawnPositions, int[] deckOrder,
             int nextCardIndex, int nextPlayerIndex, int playerCount) {
@@ -102,22 +123,47 @@ public class GameSnapshot {
         }
         return playerCount;
     }
+    /**
+     * Returns the saved pawn positions without exposing internal state.
+     *
+     * @return defensive copy of all saved pawn positions
+     */
     public List<PawnPosition> getPawnPositions(){
         return  new ArrayList<>(this.pawnPositions);
     }
 
+    /**
+     * Returns the saved deck without exposing internal state.
+     *
+     * @return defensive copy of the complete deck order
+     */
     public int[] getDeckOrder(){
         return this.deckOrder.clone();
     }
 
+    /**
+     * Returns the saved draw position.
+     *
+     * @return index of the next card to draw
+     */
     public int getNextCardIndex(){
         return this.nextCardIndex;
     }
 
+    /**
+     * Returns the saved turn position.
+     *
+     * @return zero-based player who draws next
+     */
     public int getNextPlayerIndex(){
         return this.nextPlayerIndex;
     }
 
+    /**
+     * Returns the saved multiplayer size.
+     *
+     * @return number of players in the saved game
+     */
     public int getPlayerCount() {
         return playerCount;
     }

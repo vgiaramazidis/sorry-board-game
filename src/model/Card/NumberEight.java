@@ -10,7 +10,9 @@ import model.Square.Square;
 
 
 
+/** Card 8: moves both movable pawns or may be exchanged for another draw. */
 public class NumberEight extends SimpleCard {
+	/** Creates card 8. */
 	public NumberEight() {
 		setNumber(8);
 		setDescription("Move a pawn 8 squares forward.");

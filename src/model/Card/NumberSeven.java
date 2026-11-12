@@ -11,7 +11,9 @@ import model.Square.Square;
 
 
 
+/** Card 7: moves one pawn seven squares or splits seven between two pawns. */
 public class NumberSeven extends NumberCard {
+	/** Creates card 7. */
 	public NumberSeven() {
 		setNumber(7);
 		setDescription("Move a pawn 7 squares forward, or split between two pawns.");
@@ -60,6 +62,16 @@ public class NumberSeven extends NumberCard {
 
 	}
 
+	/**
+	 * Splits seven forward steps between two pawns and moves them together.
+	 *
+	 * @param firstPawn pawn receiving {@code firstSteps}
+	 * @param secondPawn pawn receiving the remaining steps
+	 * @param firstSteps steps assigned to the first pawn, from 1 through 6
+	 * @param boxes outer-track squares
+	 * @param safetyTrack current player's Safety and Home route
+	 * @return {@code 1} when both moves are legal and applied; otherwise {@code 0}
+	 */
 	public int splitMove(Pawn firstPawn, Pawn secondPawn, int firstSteps, Square[] boxes,
 			SafetyTrack safetyTrack) {
 		if (firstPawn == null || secondPawn == null || firstPawn == secondPawn

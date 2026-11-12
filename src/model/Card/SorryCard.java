@@ -9,9 +9,11 @@ import model.Square.SafetyTrack;
 import model.Square.Square;
 import model.Square.Slide.StartSlide;
 
+/** Sorry! card: replaces an opponent on the outer track with a Start pawn. */
 public class SorryCard extends Card {
 	private static final int CARD_NUMBER = 6;
 
+	/** Creates a Sorry! card. */
 	public SorryCard() {
 		setDescription("Take a pawn from Start to replace an opponent's pawn!");
 	}
