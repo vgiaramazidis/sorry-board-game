@@ -1,6 +1,13 @@
-# Sorry Board Game - Java
+# Sorry Board Game
+
+[![Java CI](https://github.com/vgiaramazidis/sorry-board-game/actions/workflows/java-ci.yml/badge.svg)](https://github.com/vgiaramazidis/sorry-board-game/actions/workflows/java-ci.yml)
+![Java 8](https://img.shields.io/badge/Java-8-orange.svg)
 
 A desktop implementation of the **Sorry!** board game, written with Java 8 and Swing. It began as an individual HY252 Object-Oriented Programming assignment at the University of Crete and was modernized in 2026 with multiplayer support, save/load, automated tests, and a cleaner build.
+
+## Screenshot
+
+![Two-player game after a pawn move](docs/images/gameplay.png)
 
 ## Features
 

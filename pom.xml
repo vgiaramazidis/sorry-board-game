@@ -7,7 +7,7 @@
     <groupId>io.github.vgiaramazidis</groupId>
     <artifactId>sorry-game</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Sorry Board Game - Java</name>
+    <name>Sorry Board Game</name>
     <description>A Java 8 Swing implementation of the Sorry! board game.</description>
 
     <properties>
