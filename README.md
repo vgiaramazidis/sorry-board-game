@@ -1,4 +1,4 @@
-# Sorry! Game
+# Sorry Board Game - Java
 
 A desktop implementation of the **Sorry!** board game, written with Java 8 and Swing. It began as an individual HY252 Object-Oriented Programming assignment at the University of Crete and was modernized in 2026 with multiplayer support, save/load, automated tests, and a cleaner build.
 
@@ -75,7 +75,7 @@ The board uses a fixed 1100 × 780 coordinate system because the supplied artwor
 
 ## Status
 
-The non-GUI rules have automated coverage and the Maven build is suitable for continuous integration. Visual interaction still needs a manual smoke test on a desktop because modal Swing dialogs and exact pixel placement cannot be fully verified by headless unit tests.
+The non-GUI rules have automated coverage and the Maven build is suitable for continuous integration. A macOS visual smoke test covered game setup, drawing and folding, turn advancement, pawn selection, pawn movement, dialog layout, and the repeat turn granted by card 2. Complete 3- and 4-player matches are still recommended as final manual checks.
 
 ## License
 
