@@ -75,7 +75,7 @@ test/                  JUnit tests
 docs/                  Architecture and assignment-compliance notes
 ```
 
-See [docs/architecture.md](docs/architecture.md) for the interaction flow and [docs/assignment-compliance.md](docs/assignment-compliance.md) for the checklist derived from the supplied assignment PDF.
+See [docs/architecture.md](docs/architecture.md) for the interaction flow, [docs/assignment-compliance.md](docs/assignment-compliance.md) for the checklist derived from the supplied assignment PDF, and [docs/manual-testing.md](docs/manual-testing.md) for the checks performed in the running Swing application.
 
 ## Current UI limitation
 
@@ -83,7 +83,7 @@ The board uses a fixed 1100 × 780 coordinate system because the supplied artwor
 
 ## Status
 
-The non-GUI rules have automated coverage and the Maven build is suitable for continuous integration. Strict Javadoc generation is enforced with warnings treated as build failures. A macOS visual smoke test covered game setup, drawing and folding, turn advancement, pawn selection, pawn movement, dialog layout, and the repeat turn granted by card 2. Complete 3- and 4-player matches are still recommended as final manual checks.
+The non-GUI rules have automated coverage and the Maven build is suitable for continuous integration. Strict Javadoc generation is enforced with warnings treated as build failures. macOS visual smoke tests now cover 2-, 3-, and 4-player setup, explicit first-player selection, three-player turn wraparound, drawing and folding, pawn selection and movement, dialog layout, close cancellation, save-during-turn validation, and the repeat turn granted by card 2. Complete multiplayer matches and a disposable UI-level save/resume round trip are still recommended as final manual checks.
 
 ## License
 
