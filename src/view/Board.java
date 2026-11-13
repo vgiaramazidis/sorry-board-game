@@ -160,9 +160,14 @@ public class Board {
 	private JMenuBar createGameMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu gameMenu = new JMenu("Game");
+		int shortcutMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 		JMenuItem resumeItem = new JMenuItem("Resume Saved Game");
+		resumeItem.setAccelerator(
+				KeyStroke.getKeyStroke(KeyEvent.VK_O, shortcutMask));
 		resumeItem.addActionListener(event -> resumeSavedGame());
 		JMenuItem saveExitItem = new JMenuItem("Save and Exit");
+		saveExitItem.setAccelerator(
+				KeyStroke.getKeyStroke(KeyEvent.VK_S, shortcutMask));
 		saveExitItem.addActionListener(event -> saveAndExit());
 		gameMenu.add(resumeItem);
 		gameMenu.add(saveExitItem);

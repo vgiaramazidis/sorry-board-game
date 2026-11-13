@@ -55,7 +55,7 @@ ant run
 5. Use **Fold** only when no legal move exists (card 11 may also be folded instead of swapping, as required by the assignment).
 6. Move both pawns into Home to win.
 
-The **Game** menu can resume a saved game or save and exit. Automatic saves use:
+The **Game** menu can resume a saved game or save and exit. Use **Cmd/Ctrl+O** to resume and **Cmd/Ctrl+S** to save and exit. Automatic saves use:
 
 - macOS/Linux: `~/.sorry-game/snapshot.properties`
 - Windows: `%USERPROFILE%\.sorry-game\snapshot.properties`
@@ -83,7 +83,7 @@ The board uses a fixed 1100 × 780 coordinate system because the supplied artwor
 
 ## Status
 
-The non-GUI rules have automated coverage and the Maven build is suitable for continuous integration. Strict Javadoc generation is enforced with warnings treated as build failures. macOS visual smoke tests now cover 2-, 3-, and 4-player setup, explicit first-player selection, three-player turn wraparound, drawing and folding, pawn selection and movement, dialog layout, close cancellation, save-during-turn validation, and the repeat turn granted by card 2. Complete multiplayer matches and a disposable UI-level save/resume round trip are still recommended as final manual checks.
+The non-GUI rules have automated coverage and the Maven build is suitable for continuous integration. Strict Javadoc generation is enforced with warnings treated as build failures. macOS visual smoke tests now cover 2-, 3-, and 4-player setup, random first-player display, three-player turn wraparound, drawing and folding, pawn selection and movement, dialog layout, close cancellation, save-during-turn validation, a disposable save/resume round trip, and the repeat turn granted by card 2. Complete multiplayer matches, explicit selector choices, and the remaining save-error branches are still recommended as final manual checks.
 
 ## License
 
