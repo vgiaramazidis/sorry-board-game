@@ -25,9 +25,9 @@ This record separates checks performed in the running Swing application from beh
 
 The pre-existing save at `~/.sorry-game/snapshot.properties` was inspected read-only and was not overwritten during these checks.
 
-## Observed UI behavior
+## Resolved observation
 
-After Fold, the Fold button becomes disabled and the draw pile becomes available, but the previous card image and previous turn text remain visible until the next player draws. The next draw updates the player correctly, so this is a low-severity presentation issue rather than a turn-order defect.
+The smoke test found that Fold enabled the next draw but left the previous card and player text visible. The UI now clears the completed card and identifies the next player immediately after a move, Fold, or voluntary redraw. Turn-order behavior itself was already correct.
 
 ## Still requiring manual testing
 

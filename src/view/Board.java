@@ -355,7 +355,7 @@ public class Board {
 	private String getTurnInfo(int playerIndex) {
 		return "Game Info\n\nTurn: Player " + (playerIndex + 1)
 				+ " (" + getPlayerColorName(playerIndex) + ")\nCards left: "
-				+ Math.max(0, control.getDeck().sum() - (turn && pickCard != null ? 1 : 0));
+				+ control.getDeck().sum();
 	}
 
 	private String getPlayerColorName(int playerIndex) {
@@ -388,13 +388,31 @@ public class Board {
 	}
 
 	private void finishSuccessfulMove() {
+		prepareForNextDraw(pickCard.getCard() == 2);
+		checkForWinner();
+	}
+
+	private void prepareForNextDraw(boolean repeatTurn) {
+		int cardsLeft = control.getDeck().sum();
 		turn = false;
 		count = 0;
 		currentCardHasLegalMove = false;
-		turnManager.finishTurn(pickCard.getCard() == 2);
+		turnManager.finishTurn(repeatTurn);
 		Cards.setEnabled(true);
 		setFoldButtonEnabled(false);
-		checkForWinner();
+
+		if (drawnCardImage != null) {
+			GeneralGraph.remove(drawnCardImage);
+			drawnCardImage = null;
+		}
+		pickCard = null;
+
+		int nextPlayerIndex = turnManager.getNextPlayerIndex();
+		infoBox.setText("Game Info\n\nNext: Player " + (nextPlayerIndex + 1)
+				+ " (" + getPlayerColorName(nextPlayerIndex) + ")\nCards left: "
+				+ cardsLeft + "\n\nDraw a card to begin the turn.");
+		GeneralGraph.revalidate();
+		GeneralGraph.repaint();
 	}
 
 	private void setFoldButtonEnabled(boolean enabled) {
@@ -422,13 +440,8 @@ public class Board {
 
 	private void foldCurrentCard(JDialog dialog) {
 		boolean repeatTurn = pickCard != null && pickCard.getCard() == 2;
-		turn = false;
-		count = 0;
 		control.setFold(1);
-		currentCardHasLegalMove = false;
-		Cards.setEnabled(true);
-		setFoldButtonEnabled(false);
-		turnManager.finishTurn(repeatTurn);
+		prepareForNextDraw(repeatTurn);
 		if (dialog != null) {
 			dialog.dispose();
 		}
@@ -1150,10 +1163,7 @@ public class Board {
 			JButton retake = new JButton("Draw Another Card");
 			retake.addActionListener(event -> {
 				choose.dispose();
-				turn = false;
-				turnManager.finishTurn(true);
-				Cards.setEnabled(true);
-				setFoldButtonEnabled(false);
+				prepareForNextDraw(true);
 			});
 			panel.add(retake);
 			break;
@@ -1824,6 +1834,7 @@ public class Board {
 
 				}
 				pickCard = control.pickedCard();
+				control.getDeck().removeCard();
 
 				if (drawnCardImage != null) {
 
@@ -1861,8 +1872,6 @@ public class Board {
 				Sorry.repaint();
 
 				game();
-
-				control.getDeck().removeCard();
 
 			}
 
