@@ -32,7 +32,7 @@ This checklist is based on `HY252-Project_2023_Sorry!_Game.pdf`, the supplied 20
 | Safety belongs to one player and forward movement enters it | Met | one `SafetyTrack` per player and `Card.findBox` |
 | Exact Home entry and both pawns Home to win | Met | `Card.findBox`, fixed pawn home slots, and `Controller.win` |
 | GUI with board, draw pile/current card, info area, and Fold button | Met | `view.Board` |
-| In-game rules guidance | Additional improvement | `view.PlaybookDialog` presents English card and board guidance using figures from pages 7-18 of the supplied assignment brief. It opens from the board or Help menu with Cmd/Ctrl+P. |
+| In-game rules guidance | Additional improvement | `view.PlaybookDialog` presents English guidance for the rules on pages 6-18, using English-only figures from pages 7-11 of the supplied assignment brief. It opens from the board or Help menu with Cmd/Ctrl+P. |
 | Up to 4 players (bonus) | Met | 2/3/4-player setup, colors, opponents, saves, automated tests, and visual setup checks recorded in `docs/manual-testing.md` |
 | Save game (bonus) | Met | Game menu, `GameSnapshot`, and `SnapshotStore`; snapshots are written atomically where supported, and an isolated UI save/resume round trip is recorded in `docs/manual-testing.md` |
 

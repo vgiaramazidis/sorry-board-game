@@ -28,17 +28,8 @@ public class PlaybookResourcesTest {
                 "/image/playbook/card-11.jpg",
                 "/image/playbook/card-12.jpg",
                 "/image/playbook/card-sorry.jpg",
-                "/image/playbook/start-number-cards.png",
-                "/image/playbook/start-sorry.png",
-                "/image/playbook/capture-example.png",
-                "/image/playbook/backward-example.png",
-                "/image/playbook/slide-example.png",
-                "/image/playbook/card-7-example.png",
-                "/image/playbook/card-10-example.png",
-                "/image/playbook/card-11-forward.png",
-                "/image/playbook/card-11-swap.png",
-                "/image/playbook/home-exact.png",
-                "/image/playbook/home-too-far.png"
+                "/image/redPawn1.png",
+                "/image/yellowPawn1.png"
         };
 
         for (String resource : resources) {

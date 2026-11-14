@@ -201,38 +201,34 @@ final class PlaybookDialog extends JDialog {
                                 + "Pawns normally move clockwise. They may pass over other pawns, "
                                 + "but cannot finish on a square occupied by their own pawn.",
                         "/image/playbook/start-yellow.png",
-                        "/image/playbook/start-red.png",
-                        "/image/playbook/start-number-cards.png"),
+                        "/image/playbook/start-red.png"),
                 page("Captures and occupied squares",
                         "If your pawn finishes on an opponent's pawn, the opponent returns to "
                                 + "Start and your pawn takes that square. Two pawns never share a "
                                 + "normal square. Start and Home are the only shared destinations "
                                 + "for a player's own pawns.",
-                        "/image/playbook/capture-example.png"),
+                        "/image/redPawn1.png",
+                        "/image/yellowPawn1.png"),
                 page("Slides",
                         "Landing exactly on the triangle at the start of another colour's slide "
                                 + "moves your pawn to its circular end. Every pawn on that slide - "
                                 + "even one of your own - returns to its Start. Your own colour's "
                                 + "slide does not activate. Landing in the middle does not activate it.",
                         "/image/playbook/slide-short.png",
-                        "/image/playbook/slide-long.png",
-                        "/image/playbook/slide-example.png"),
+                        "/image/playbook/slide-long.png"),
                 page("Safety zone",
                         "Only your pawns may enter your five-square Safety zone. Entry must be "
                                 + "made while moving forward; a backward move cannot cross into "
                                 + "Safety. Pawns inside Safety are protected from opponents, swaps, "
                                 + "and Sorry! replacements.",
                         "/image/playbook/safety-red.png",
-                        "/image/playbook/safety-yellow.png",
-                        "/image/playbook/backward-example.png"),
+                        "/image/playbook/safety-yellow.png"),
                 page("Home and winning",
                         "Home is beyond your Safety zone. A pawn must arrive with the exact card "
                                 + "value - it cannot move past Home. Once Home, that pawn never moves "
                                 + "again. Bring both of your pawns Home to win the game.",
                         "/image/playbook/home-yellow.png",
-                        "/image/playbook/home-red.png",
-                        "/image/playbook/home-exact.png",
-                        "/image/playbook/home-too-far.png"),
+                        "/image/playbook/home-red.png"),
                 page("Cards 1, 2, and 3",
                         "<b>1:</b> Leave Start or move one pawn forward 1.<br>"
                                 + "<b>2:</b> Leave Start or move one pawn forward 2, then play again.<br>"
@@ -248,31 +244,28 @@ final class PlaybookDialog extends JDialog {
                                 + "between both pawns. Card 7 cannot leave Start and cannot move backward.",
                         "/image/playbook/card-4.jpg",
                         "/image/playbook/card-5.jpg",
-                        "/image/playbook/card-7.jpg",
-                        "/image/playbook/card-7-example.png"),
+                        "/image/playbook/card-7.jpg"),
                 page("Cards 8 and 10",
                         "<b>8:</b> Move one pawn forward 8, or draw another card.<br>"
                                 + "<b>10:</b> Move one pawn forward 10 or backward 1. If forward 10 "
                                 + "is impossible but backward 1 is legal, the backward move is required.",
                         "/image/playbook/card-8.jpg",
-                        "/image/playbook/card-10.jpg",
-                        "/image/playbook/card-10-example.png"),
+                        "/image/playbook/card-10.jpg"),
                 page("Cards 11 and 12",
                         "<b>11:</b> Move forward 11 or optionally swap with an opponent on an "
                                 + "eligible outer-track square. Start, Safety, and Home cannot be "
                                 + "used in a swap. You may Fold instead of swapping.<br>"
                                 + "<b>12:</b> Move forward 12, or draw another card.",
                         "/image/playbook/card-11.jpg",
-                        "/image/playbook/card-12.jpg",
-                        "/image/playbook/card-11-forward.png",
-                        "/image/playbook/card-11-swap.png"),
+                        "/image/playbook/card-12.jpg"),
                 page("The Sorry! card",
                         "Move one of your pawns from Start onto an eligible outer-track opponent. "
                                 + "The opponent returns to Start. Safety and Home cannot be targeted. "
                                 + "Without a pawn in Start or a legal target, discard the card.<br><br>"
                                 + "<b>Keys:</b> Left/Right turn pages, Home/End jump, Esc closes.",
                         "/image/playbook/card-sorry.jpg",
-                        "/image/playbook/start-sorry.png"));
+                        "/image/playbook/start-yellow.png",
+                        "/image/playbook/start-red.png"));
     }
 
     private static PlaybookPage page(String title, String body, String... images) {

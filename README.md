@@ -2,6 +2,7 @@
 
 [![Java CI](https://github.com/vgiaramazidis/sorry-board-game/actions/workflows/java-ci.yml/badge.svg)](https://github.com/vgiaramazidis/sorry-board-game/actions/workflows/java-ci.yml)
 ![Java 8](https://img.shields.io/badge/Java-8-orange.svg)
+![Code license](https://img.shields.io/badge/code%20license-MIT-blue.svg)
 
 A desktop implementation of the **Sorry!** board game, written with Java 8 and Swing. It began as an individual HY252 Object-Oriented Programming assignment at the University of Crete and was modernized in 2026 with multiplayer support, save/load, automated tests, and a cleaner build.
 
@@ -90,8 +91,10 @@ The project has 28 automated tests and the Maven build is suitable for continuou
 
 ## License
 
-No license has been selected yet. Until a license is added, copyright law reserves all rights. Choose a license before inviting outside contributions or reuse.
+The original Java source code, tests, build configuration, and original text documentation are available under the [MIT License](LICENSE).
+
+The MIT License does **not** cover the supplied or third-party visual assets, card and board artwork, logos, assignment figures, screenshots, or embedded report images. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) before reusing or distributing those files.
 
 This is an educational, unofficial project and is not affiliated with or endorsed by the owner of the Sorry! trademark.
 
-The in-game playbook uses figures extracted from pages 7-18 of the supplied HY252 assignment brief. The accompanying explanations are an English paraphrase of that specification.
+The in-game playbook uses English-only figures extracted from pages 7-11 of the supplied HY252 assignment brief. The accompanying explanations are an English paraphrase of the complete rules in pages 6-18.
