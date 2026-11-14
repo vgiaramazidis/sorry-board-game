@@ -15,7 +15,9 @@
         <mkdir dir="${classes.dir}"/>
         <javac srcdir="${src.dir}" destdir="${classes.dir}"
                source="1.8" target="1.8" encoding="UTF-8"
-               includeantruntime="false"/>
+               includeantruntime="false">
+            <compilerarg value="-Xlint:-options"/>
+        </javac>
         <copy todir="${classes.dir}">
             <fileset dir="${src.dir}">
                 <exclude name="**/*.java"/>

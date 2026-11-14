@@ -1,6 +1,7 @@
 package controller;
 
 import model.Pawn;
+import model.Card.MoveDirection;
 import model.save.GameSnapshot;
 import model.save.LocationType;
 import model.save.PawnPosition;
@@ -12,6 +13,42 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class ControllerTest {
+    @Test
+    public void scriptedGamesReachHomeAndDetectWinnerForEveryPlayerCount() {
+        for (int playerCount = 2; playerCount <= 4; playerCount++) {
+            Controller controller = new Controller(playerCount);
+            int winnerIndex = playerCount - 1;
+            TurnManager turns = new TurnManager(playerCount, 0);
+            int expectedPlayer = 0;
+            int completedTurns = 0;
+
+            while (controller.win() == 0 && completedTurns < 1000) {
+                int currentPlayer = turns.beginTurn();
+                assertEquals(expectedPlayer, currentPlayer);
+
+                if (currentPlayer == winnerIndex) {
+                    GameSnapshot state = controller.createSnapshot(currentPlayer);
+                    controller.restoreSnapshot(new GameSnapshot(
+                            state.getPawnPositions(), deckStartingWith(1), 0,
+                            currentPlayer, playerCount));
+                    controller.setSelectPlayer(currentPlayer);
+
+                    int pawnIndex = controller.getChoosePawn(0, currentPlayer).isHome() ? 1 : 0;
+                    assertEquals(1, controller.makeMove(false, pawnIndex));
+                }
+
+                turns.finishTurn(false);
+                expectedPlayer = (expectedPlayer + 1) % playerCount;
+                completedTurns++;
+            }
+
+            assertTrue("Scripted game did not finish", completedTurns < 1000);
+            assertTrue(controller.getChoosePawn(0, winnerIndex).isHome());
+            assertTrue(controller.getChoosePawn(1, winnerIndex).isHome());
+            assertEquals(winnerIndex + 1, controller.win());
+        }
+    }
+
     @Test
     public void createsTwoThreeAndFourPlayerGames() {
         for (int count = 2; count <= 4; count++) {
@@ -40,6 +77,72 @@ public class ControllerTest {
         assertEquals(1, controller.makeMove(0, 1, 0));
         assertSame(controller.getBoxes()[10], controller.getChoosePawn(0, 0).getCurrentSquare());
         assertSame(controller.getBoxes()[0], controller.getChoosePawn(0, 1).getCurrentSquare());
+    }
+
+    @Test
+    public void cardSevenCanSplitAcrossBothPawns() {
+        Controller controller = controllerWith(2, 7,
+                position(0, 0, LocationType.OUTER, 30),
+                position(0, 1, LocationType.OUTER, 20),
+                position(1, 0, LocationType.START, 0),
+                position(1, 1, LocationType.START, 1));
+        controller.setSelectPlayer(0);
+
+        assertTrue(controller.canSplitSeven());
+        assertEquals(1, controller.makeSevenSplit(0, 3));
+        assertSame(controller.getBoxes()[27], controller.getChoosePawn(0, 0).getCurrentSquare());
+        assertSame(controller.getBoxes()[16], controller.getChoosePawn(1, 0).getCurrentSquare());
+    }
+
+    @Test
+    public void cardTenSupportsBothForwardAndBackwardChoices() {
+        Controller forward = controllerWith(2, 10,
+                position(0, 0, LocationType.OUTER, 30),
+                position(0, 1, LocationType.START, 1),
+                position(1, 0, LocationType.START, 0),
+                position(1, 1, LocationType.START, 1));
+        forward.setSelectPlayer(0);
+        assertEquals(1, forward.makeMove(false, 0, MoveDirection.FORWARD));
+        assertSame(forward.getBoxes()[20], forward.getChoosePawn(0, 0).getCurrentSquare());
+
+        Controller backward = controllerWith(2, 10,
+                position(0, 0, LocationType.OUTER, 30),
+                position(0, 1, LocationType.START, 1),
+                position(1, 0, LocationType.START, 0),
+                position(1, 1, LocationType.START, 1));
+        backward.setSelectPlayer(0);
+        assertEquals(1, backward.makeMove(false, 0, MoveDirection.BACKWARD));
+        assertSame(backward.getBoxes()[31], backward.getChoosePawn(0, 0).getCurrentSquare());
+    }
+
+    @Test
+    public void cardTwelveMovesSelectedPawnForward() {
+        Controller controller = controllerWith(2, 12,
+                position(0, 0, LocationType.OUTER, 30),
+                position(0, 1, LocationType.START, 1),
+                position(1, 0, LocationType.START, 0),
+                position(1, 1, LocationType.START, 1));
+        controller.setSelectPlayer(0);
+
+        assertEquals(1, controller.makeMove(false, 0));
+        assertSame(controller.getBoxes()[18], controller.getChoosePawn(0, 0).getCurrentSquare());
+    }
+
+    @Test
+    public void sorryCardReplacesChosenOpponentInMultiplayerGame() {
+        Controller controller = controllerWith(3, 6,
+                position(0, 0, LocationType.START, 0),
+                position(0, 1, LocationType.START, 1),
+                position(1, 0, LocationType.START, 0),
+                position(1, 1, LocationType.START, 1),
+                position(2, 0, LocationType.OUTER, 30),
+                position(2, 1, LocationType.START, 1));
+        controller.setSelectPlayer(0);
+
+        assertTrue(controller.canSwapWithEnemy(0, 2, 0));
+        assertEquals(1, controller.makeMove(0, 2, 0));
+        assertSame(controller.getBoxes()[30], controller.getChoosePawn(0, 0).getCurrentSquare());
+        assertTrue(controller.getChoosePawn(0, 2).isStart());
     }
 
     @Test

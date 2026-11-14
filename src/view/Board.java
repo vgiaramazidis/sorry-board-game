@@ -157,6 +157,7 @@ public class Board {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	private JMenuBar createGameMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu gameMenu = new JMenu("Game");

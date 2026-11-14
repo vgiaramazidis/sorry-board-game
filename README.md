@@ -83,7 +83,7 @@ The board uses a fixed 1100 × 780 coordinate system because the supplied artwor
 
 ## Status
 
-The non-GUI rules have automated coverage and the Maven build is suitable for continuous integration. Strict Javadoc generation is enforced with warnings treated as build failures. macOS visual smoke tests now cover 2-, 3-, and 4-player setup, random first-player display, three-player turn wraparound, drawing and folding, pawn selection and movement, dialog layout, close cancellation, save-during-turn validation, a disposable save/resume round trip, and the repeat turn granted by card 2. Complete multiplayer matches, explicit selector choices, and the remaining save-error branches are still recommended as final manual checks.
+The non-GUI rules have 27 automated tests and the Maven build is suitable for continuous integration. Strict Javadoc generation is enforced with warnings treated as build failures. Deterministic scenarios now take 2-, 3-, and 4-player games from Start to a verified winner, and targeted tests cover the special cards, every first-player index, and save failures. macOS visual checks cover multiplayer setup, turn wraparound, drawing and folding, pawn movement, close cancellation, keyboard shortcuts, a disposable save/resume round trip, save-copy Cancel, invalid saves, and mismatched player counts. Long random human matches and the remaining modal Back/window-close combinations are documented separately as manual checks rather than being represented as automated proof.
 
 ## License
 

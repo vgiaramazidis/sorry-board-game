@@ -6,6 +6,16 @@ import static org.junit.Assert.assertEquals;
 
 public class TurnManagerTest {
     @Test
+    public void acceptsEveryExplicitFirstPlayerChoice() {
+        for (int playerCount = 2; playerCount <= 4; playerCount++) {
+            for (int firstPlayer = 0; firstPlayer < playerCount; firstPlayer++) {
+                TurnManager turns = new TurnManager(playerCount, firstPlayer);
+                assertEquals(firstPlayer, turns.beginTurn());
+            }
+        }
+    }
+
+    @Test
     public void advancesThroughAllPlayersAndWraps() {
         TurnManager turns = new TurnManager(3, 1);
 
