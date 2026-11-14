@@ -4,7 +4,7 @@ This record separates checks performed in the running Swing application from beh
 
 ## Environment
 
-- Date: 13 November 2026
+- Date: 14 November 2026
 - Platform: macOS on a Retina display
 - Build: `target/sorry-game-1.0.0-SNAPSHOT.jar`
 - Window: fixed 1100 × 780 logical pixels, centered and non-resizable
@@ -27,6 +27,7 @@ This record separates checks performed in the running Swing application from beh
 | Save-copy Cancel | Passed | Cancel at the save-current-game confirmation returned to the existing game without restoring the selected snapshot. |
 | Invalid save | Passed | A disposable unsupported-version file displayed `Resume failed` with `Missing or unsupported snapshot version`. |
 | Wrong player count | Passed | Loading a valid three-player snapshot into a two-player window displayed a specific restart instruction and preserved the current game. |
+| Playbook layout | Passed by direct Swing rendering | The button was rendered above the deck without overlap. All six two-page spreads were rendered from the real dialog code; figures, English text, page numbers, spine, navigation controls, and final-page content were visible without clipping or unwanted scrollbars. |
 | Retina rendering | Passed at the tested display setting | Board borders, card images, labels, pawns, buttons, and dialogs remained aligned with no visible clipping. |
 
 The pre-existing save at `~/.sorry-game/snapshot.properties` was inspected read-only and was not overwritten during these checks. The temporary home, disposable snapshot, and screen captures were deleted after verification.
@@ -49,5 +50,6 @@ The same suite covers card 7 split movement, both card 10 directions, card 11 sw
 - Exercise the save-copy Yes branch and a visible permission-error dialog. Cancel, invalid-file, wrong-player-count, and storage/permission failures are already covered as described above.
 - Test additional macOS display scaling modes and at least one Windows or Linux desktop.
 - Verify keyboard-only navigation and screen-reader descriptions beyond the draw-button accessible text.
+- Hand-operate the Playbook button and Cmd/Ctrl+P on Windows or Linux; its complete Swing layout and packaged resources were verified on macOS, while shell-driven clicking was blocked by macOS accessibility policy.
 
 Automated model/controller coverage remains documented in the main README and the assignment compliance checklist. A successful automated test does not replace the manual UI checks listed above.

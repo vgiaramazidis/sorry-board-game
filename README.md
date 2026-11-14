@@ -16,6 +16,7 @@ A desktop implementation of the **Sorry!** board game, written with Java 8 and S
 - All assignment cards: 1, 2, 3, 4, 5, 7, 8, 10, 11, 12, and Sorry!
 - Slides, captures, Safety zones, exact Home entry, split 7, and repeat turns
 - Save and resume between turns using a validated, human-readable snapshot file
+- In-game English playbook with assignment figures, card guidance, and keyboard navigation
 - JUnit regression tests for the model and controller
 - Warning-free API documentation and a generated Javadoc JAR
 - Java 8-compatible source and bytecode
@@ -55,6 +56,8 @@ ant run
 5. Use **Fold** only when no legal move exists (card 11 may also be folded instead of swapping, as required by the assignment).
 6. Move both pawns into Home to win.
 
+Open the in-game **Playbook** above the deck, or press **Cmd/Ctrl+P**. Its book-style pages explain Start, pawns, captures, slides, Safety, Home, every card, and the assignment-specific examples. Use Left/Right to turn pages, Home/End to jump, and Escape to close it.
+
 The **Game** menu can resume a saved game or save and exit. Use **Cmd/Ctrl+O** to resume and **Cmd/Ctrl+S** to save and exit. Automatic saves use:
 
 - macOS/Linux: `~/.sorry-game/snapshot.properties`
@@ -83,10 +86,12 @@ The board uses a fixed 1100 × 780 coordinate system because the supplied artwor
 
 ## Status
 
-The non-GUI rules have 27 automated tests and the Maven build is suitable for continuous integration. Strict Javadoc generation is enforced with warnings treated as build failures. Deterministic scenarios now take 2-, 3-, and 4-player games from Start to a verified winner, and targeted tests cover the special cards, every first-player index, and save failures. macOS visual checks cover multiplayer setup, turn wraparound, drawing and folding, pawn movement, close cancellation, keyboard shortcuts, a disposable save/resume round trip, save-copy Cancel, invalid saves, and mismatched player counts. Long random human matches and the remaining modal Back/window-close combinations are documented separately as manual checks rather than being represented as automated proof.
+The project has 28 automated tests and the Maven build is suitable for continuous integration. Strict Javadoc generation is enforced with warnings treated as build failures. Deterministic scenarios now take 2-, 3-, and 4-player games from Start to a verified winner, and targeted tests cover the special cards, every first-player index, save failures, and playbook resource packaging. macOS visual checks cover multiplayer setup, turn wraparound, drawing and folding, pawn movement, close cancellation, keyboard shortcuts, a disposable save/resume round trip, save-copy Cancel, invalid saves, mismatched player counts, and every rendered playbook spread. Long random human matches and the remaining modal Back/window-close combinations are documented separately as manual checks rather than being represented as automated proof.
 
 ## License
 
 No license has been selected yet. Until a license is added, copyright law reserves all rights. Choose a license before inviting outside contributions or reuse.
 
 This is an educational, unofficial project and is not affiliated with or endorsed by the owner of the Sorry! trademark.
+
+The in-game playbook uses figures extracted from pages 7-18 of the supplied HY252 assignment brief. The accompanying explanations are an English paraphrase of that specification.

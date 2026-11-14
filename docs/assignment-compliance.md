@@ -12,7 +12,7 @@ This checklist is based on `HY252-Project_2023_Sorry!_Game.pdf`, the supplied 20
 | Abstract `Card` and `Square` hierarchies | Met | `model.Card.Card`, `NumberCard`, concrete cards; `model.Square.Square` and concrete square/slide classes |
 | Required core classes (`Square`, `Card`, `Deck`, `Pawn`, `Player`, `Controller`, View) | Met | Corresponding source classes; view is `view.Board` |
 | Javadoc with pre/postconditions | Met | Every public API is documented; strict `javadoc -Xdoclint:all` reports zero warnings, and Maven attaches a Javadoc JAR with `failOnWarnings` enabled. |
-| JUnit tests | Met | Tests under `test/`; `mvn test` runs 27 tests |
+| JUnit tests | Met | Tests under `test/`; `mvn test` runs 28 tests, including packaged playbook-resource validation |
 | Initialize 16×16-style board, cards, players, and pawns | Met | `Controller` builds 60 perimeter squares plus player areas; `Deck` builds 44 cards; `Player`/`Pawn` setup is tested |
 | Select who plays first (for example, randomly) | Met | `Main.main` offers explicit player choice or Random |
 | 44 cards: four each of 1,2,3,4,5,7,8,10,11,12 and Sorry! | Met | `Deck`; distribution is validated and tested. Internally Sorry! retains legacy numeric value `6`. |
@@ -32,6 +32,7 @@ This checklist is based on `HY252-Project_2023_Sorry!_Game.pdf`, the supplied 20
 | Safety belongs to one player and forward movement enters it | Met | one `SafetyTrack` per player and `Card.findBox` |
 | Exact Home entry and both pawns Home to win | Met | `Card.findBox`, fixed pawn home slots, and `Controller.win` |
 | GUI with board, draw pile/current card, info area, and Fold button | Met | `view.Board` |
+| In-game rules guidance | Additional improvement | `view.PlaybookDialog` presents English card and board guidance using figures from pages 7-18 of the supplied assignment brief. It opens from the board or Help menu with Cmd/Ctrl+P. |
 | Up to 4 players (bonus) | Met | 2/3/4-player setup, colors, opponents, saves, automated tests, and visual setup checks recorded in `docs/manual-testing.md` |
 | Save game (bonus) | Met | Game menu, `GameSnapshot`, and `SnapshotStore`; snapshots are written atomically where supported, and an isolated UI save/resume round trip is recorded in `docs/manual-testing.md` |
 

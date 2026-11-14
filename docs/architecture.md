@@ -5,6 +5,7 @@ The project uses the assignment's Model–View–Controller split. “MVC” mea
 ```mermaid
 flowchart LR
     Main[main.Main] --> Board[view.Board]
+    Board --> Playbook[view.PlaybookDialog]
     Board --> Controller[controller.Controller]
     Board --> Turns[controller.TurnManager]
     Controller --> Players[model.Player / Pawn]
@@ -19,6 +20,7 @@ flowchart LR
 
 - `Main` starts Swing on the Event Dispatch Thread and collects the player count and first-player choice.
 - `Board` creates the Swing components, translates user choices into controller calls, and redraws pawn labels after successful actions.
+- `PlaybookDialog` is a view-only, modal rules guide. It owns its page content and navigation but does not read or change game state.
 - `TurnManager` records who draws next and implements normal advance or repeat-turn behavior.
 - `Controller` builds the board, validates legal actions, delegates movement to the current `Card`, applies captures/slides, and creates or restores snapshots.
 - `Deck` owns the 44-card shuffled draw order.

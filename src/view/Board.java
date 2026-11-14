@@ -173,7 +173,30 @@ public class Board {
 		gameMenu.add(resumeItem);
 		gameMenu.add(saveExitItem);
 		menuBar.add(gameMenu);
+
+		JMenu helpMenu = new JMenu("Help");
+		JMenuItem playbookItem = new JMenuItem("Playbook");
+		playbookItem.setIcon(createScaledIcon("/image/icon.png", 18, 18));
+		playbookItem.setAccelerator(
+				KeyStroke.getKeyStroke(KeyEvent.VK_P, shortcutMask));
+		playbookItem.addActionListener(event -> openPlaybook());
+		helpMenu.add(playbookItem);
+		menuBar.add(helpMenu);
 		return menuBar;
+	}
+
+	private void openPlaybook() {
+		new PlaybookDialog(Sorry).setVisible(true);
+	}
+
+	private ImageIcon createScaledIcon(String resource, int width, int height) {
+		URL resourceUrl = getClass().getResource(resource);
+		if (resourceUrl == null) {
+			return new ImageIcon();
+		}
+		Image scaled = new ImageIcon(resourceUrl).getImage().getScaledInstance(
+				width, height, Image.SCALE_SMOOTH);
+		return new ImageIcon(scaled);
 	}
 
 	private Path getSnapshotFile() {
@@ -994,6 +1017,21 @@ public class Board {
 	 */
 
 	public void initButtons() {
+		JButton playbookButton = new JButton(
+				"Playbook", createScaledIcon("/image/icon.png", 42, 42));
+		playbookButton.setUI(new BasicButtonUI());
+		playbookButton.setBackground(new Color(250, 229, 166));
+		playbookButton.setForeground(new Color(56, 42, 31));
+		playbookButton.setFont(new Font("Arial", Font.BOLD, 18));
+		playbookButton.setFocusPainted(false);
+		playbookButton.setIconTextGap(12);
+		playbookButton.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(new Color(78, 47, 30), 3),
+				BorderFactory.createEmptyBorder(4, 10, 4, 10)));
+		playbookButton.setToolTipText("Open the game guide (Cmd/Ctrl+P)");
+		playbookButton.getAccessibleContext().setAccessibleName("Open playbook");
+		playbookButton.setBounds(750, 105, 290, 62);
+		playbookButton.addActionListener(event -> openPlaybook());
 
 		ReceiveCard = new JLabel("Draw pile");
 
@@ -1027,6 +1065,8 @@ public class Board {
 		Cards.getAccessibleContext().setAccessibleName("Draw a card");
 
 		Cards.setBounds(750, 200, 108, 158);
+
+		GeneralGraph.add(playbookButton, JLayeredPane.MODAL_LAYER);
 
 		GeneralGraph.add(Cards, JLayeredPane.MODAL_LAYER);
 
