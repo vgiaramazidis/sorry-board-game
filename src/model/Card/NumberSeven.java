@@ -74,15 +74,55 @@ public class NumberSeven extends NumberCard {
 	 */
 	public int splitMove(Pawn firstPawn, Pawn secondPawn, int firstSteps, Square[] boxes,
 			SafetyTrack safetyTrack) {
-		if (firstPawn == null || secondPawn == null || firstPawn == secondPawn
-				|| firstPawn.getColor() != secondPawn.getColor()
-				|| firstSteps < 1 || firstSteps > 6) {
+		Square[] destinations = findSplitDestinations(
+				firstPawn, secondPawn, firstSteps, boxes, safetyTrack);
+		if (destinations == null) {
 			return 0;
 		}
 
+		movePawnsTo(
+				firstPawn, destinations[0], secondPawn, destinations[1], boxes, safetyTrack);
+		return 1;
+	}
+
+	/**
+	 * Tests a proposed split without changing either pawn.
+	 *
+	 * @param firstPawn pawn receiving {@code firstSteps}
+	 * @param secondPawn pawn receiving the remaining steps
+	 * @param firstSteps steps assigned to the first pawn, from 1 through 6
+	 * @param boxes outer-track squares
+	 * @param safetyTrack current player's Safety and Home route
+	 * @return whether the complete split is legal
+	 */
+	public boolean canSplitMove(Pawn firstPawn, Pawn secondPawn, int firstSteps,
+			Square[] boxes, SafetyTrack safetyTrack) {
+		return findSplitDestinations(
+				firstPawn, secondPawn, firstSteps, boxes, safetyTrack) != null;
+	}
+
+	private Square[] findSplitDestinations(Pawn firstPawn, Pawn secondPawn, int firstSteps,
+			Square[] boxes, SafetyTrack safetyTrack) {
+		if (firstPawn == null || secondPawn == null || firstPawn == secondPawn
+				|| firstPawn.getColor() != secondPawn.getColor()
+				|| firstSteps < 1 || firstSteps > 6) {
+			return null;
+		}
+
 		int secondSteps = getCard() - firstSteps;
-		Square firstDestination = findBox(firstPawn, boxes, firstSteps, safetyTrack);
-		Square secondDestination = findBox(secondPawn, boxes, secondSteps, safetyTrack);
+		Square firstSource = firstPawn.getCurrentSquare();
+		Square secondSource = secondPawn.getCurrentSquare();
+		clearOwnOccupant(firstSource, firstPawn);
+		clearOwnOccupant(secondSource, secondPawn);
+		Square firstDestination;
+		Square secondDestination;
+		try {
+			firstDestination = findBox(firstPawn, boxes, firstSteps, safetyTrack);
+			secondDestination = findBox(secondPawn, boxes, secondSteps, safetyTrack);
+		} finally {
+			restoreOwnOccupant(firstSource, firstPawn);
+			restoreOwnOccupant(secondSource, secondPawn);
+		}
 
 		if (firstDestination != null && firstDestination == secondDestination) {
 			Home home0 = safetyTrack.getHomeSquare(0);
@@ -96,11 +136,21 @@ public class NumberSeven extends NumberCard {
 
 		if (firstDestination == null || secondDestination == null
 				|| firstDestination == secondDestination) {
-			return 0;
+			return null;
 		}
+		return new Square[]{firstDestination, secondDestination};
+	}
 
-		movePawnsTo(firstPawn, firstDestination, secondPawn, secondDestination, boxes, safetyTrack);
-		return 1;
+	private void clearOwnOccupant(Square square, Pawn pawn) {
+		if (square != null && square.getOccupant() == pawn) {
+			square.setOccupant(null);
+		}
+	}
+
+	private void restoreOwnOccupant(Square square, Pawn pawn) {
+		if (square != null) {
+			square.setOccupant(pawn);
+		}
 	}
 
 

@@ -12,7 +12,7 @@ This checklist is based on `HY252-Project_2023_Sorry!_Game.pdf`, the supplied 20
 | Abstract `Card` and `Square` hierarchies | Met | `model.Card.Card`, `NumberCard`, concrete cards; `model.Square.Square` and concrete square/slide classes |
 | Required core classes (`Square`, `Card`, `Deck`, `Pawn`, `Player`, `Controller`, View) | Met | Corresponding source classes; view is `view.Board` |
 | Javadoc with pre/postconditions | Met | Every public API is documented; strict `javadoc -Xdoclint:all` reports zero warnings, and Maven attaches a Javadoc JAR with `failOnWarnings` enabled. |
-| JUnit tests | Met | Tests under `test/`; `mvn test` runs 28 tests, including packaged playbook-resource validation |
+| JUnit tests | Met | Tests under `test/`; `mvn test` runs 35 tests, including a complete draw-to-winner game and packaged playbook-resource validation |
 | Initialize 16×16-style board, cards, players, and pawns | Met | `Controller` builds 60 perimeter squares plus player areas; `Deck` builds 44 cards; `Player`/`Pawn` setup is tested |
 | Select who plays first (for example, randomly) | Met | `Main.main` offers explicit player choice or Random |
 | 44 cards: four each of 1,2,3,4,5,7,8,10,11,12 and Sorry! | Met | `Deck`; distribution is validated and tested. Internally Sorry! retains legacy numeric value `6`. |

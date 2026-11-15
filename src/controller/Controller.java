@@ -20,6 +20,7 @@ import model.save.PawnPosition;
 public class Controller {
 
 	private Deck deck = new Deck();
+	private Card currentCard;
 
 	private int fold, numSelectPlayer, numSelectPawn;
 
@@ -490,6 +491,7 @@ public class Controller {
 					.moveTo(destinations[i]);
 		}
 		deck = restoredDeck;
+		currentCard = null;
 		numSelectPlayer = snapshot.getNextPlayerIndex();
 		numSelectPawn = 0;
 	}
@@ -685,6 +687,7 @@ public class Controller {
 	public void resetDeck() {
 
 		deck=new Deck();
+		currentCard = null;
 
 	}
 
@@ -818,11 +821,24 @@ public class Controller {
 	 */
 
 	public Card pickedCard(){
+		if (currentCard != null) {
+			throw new IllegalStateException("Finish the current card before drawing another one.");
+		}
+		if (deck.sum() == 0) {
+			throw new IllegalStateException("The deck is empty.");
+		}
+		currentCard = deck.getCard();
+		deck.removeCard();
+		return currentCard;
+	}
 
-		Card card=deck.getCard();
+	/** Clears the card whose action or fold has completed. */
+	public void finishCurrentCard() {
+		currentCard = null;
+	}
 
-		return card;
-
+	private Card getRuleCard() {
+		return currentCard != null ? currentCard : deck.getCard();
 	}
 
 
@@ -996,8 +1012,7 @@ public class Controller {
 		}
 
 		Pawn pawn = getChoosePawn(pawnIndex, numSelectPlayer);
-		Pawn[] ownPawns = players[numSelectPlayer].getPawns();
-		Card card = deck.getCard();
+		Card card = getRuleCard();
 		SafetyTrack safetyTrack = safetyTracks[numSelectPlayer];
 		int cardNumber = card.getCard();
 
@@ -1042,6 +1057,33 @@ public class Controller {
 	}
 
 	/**
+	 * Tests one exact direction for a selected pawn.
+	 *
+	 * @param pawnIndex zero-based current-player pawn index
+	 * @param direction requested movement direction
+	 * @return whether that exact movement is legal
+	 */
+	public boolean canMovePawn(int pawnIndex, MoveDirection direction) {
+		if (direction == null || numSelectPlayer < 0 || numSelectPlayer >= players.length
+				|| pawnIndex < 0 || pawnIndex >= players[numSelectPlayer].getPawns().length) {
+			return false;
+		}
+		Card card = getRuleCard();
+		int cardNumber = card.getCard();
+		Pawn pawn = getChoosePawn(pawnIndex, numSelectPlayer);
+		SafetyTrack safetyTrack = safetyTracks[numSelectPlayer];
+		if (cardNumber == 4) {
+			return direction == MoveDirection.BACKWARD
+					&& card.findBox(pawn, boxes, -4, safetyTrack) != null;
+		}
+		if (cardNumber == 10) {
+			int distance = direction == MoveDirection.BACKWARD ? -1 : 10;
+			return card.findBox(pawn, boxes, distance, safetyTrack) != null;
+		}
+		return direction == MoveDirection.FORWARD && canMovePawn(pawnIndex);
+	}
+
+	/**
 	 * Tests a two-player card 11 or Sorry! interaction.
 	 *
 	 * @param ownPawnIndex current player's pawn index
@@ -1073,7 +1115,7 @@ public class Controller {
 				|| enemyPawnIndex < 0 || enemyPawnIndex >= 2) {
 			return false;
 		}
-		Card card = deck.getCard();
+		Card card = getRuleCard();
 		if (card.getCard() != 6 && card.getCard() != 11) {
 			return false;
 		}
@@ -1095,21 +1137,17 @@ public class Controller {
 	 */
 	public boolean canSplitSeven() {
 		if (numSelectPlayer < 0 || numSelectPlayer >= players.length
-				|| deck.getCard().getCard() != 7) {
+				|| getRuleCard().getCard() != 7) {
 			return false;
 		}
 		Pawn[] pawns = players[numSelectPlayer].getPawns();
 		SafetyTrack safetyTrack = safetyTracks[numSelectPlayer];
-		Card card = deck.getCard();
+		NumberSeven card = (NumberSeven) getRuleCard();
 		for (int firstSteps = 1; firstSteps <= 6; firstSteps++) {
-			Square first = card.findBox(pawns[0], boxes, firstSteps, safetyTrack);
-			Square second = card.findBox(pawns[1], boxes, 7 - firstSteps, safetyTrack);
-			if (distinctDestinations(first, second, safetyTrack)) {
+			if (card.canSplitMove(pawns[0], pawns[1], firstSteps, boxes, safetyTrack)) {
 				return true;
 			}
-			first = card.findBox(pawns[1], boxes, firstSteps, safetyTrack);
-			second = card.findBox(pawns[0], boxes, 7 - firstSteps, safetyTrack);
-			if (distinctDestinations(first, second, safetyTrack)) {
+			if (card.canSplitMove(pawns[1], pawns[0], firstSteps, boxes, safetyTrack)) {
 				return true;
 			}
 		}
@@ -1125,12 +1163,13 @@ public class Controller {
 		if (numSelectPlayer < 0 || numSelectPlayer >= players.length) {
 			return false;
 		}
-		int cardNumber = deck.getCard().getCard();
+		Card card = getRuleCard();
+		int cardNumber = card.getCard();
 		Pawn[] pawns = players[numSelectPlayer].getPawns();
 		if (cardNumber == 3 || cardNumber == 5) {
 			SafetyTrack safetyTrack = safetyTracks[numSelectPlayer];
-			return deck.getCard().findBox(pawns[0], boxes, cardNumber, safetyTrack) != null
-					|| deck.getCard().findBox(pawns[1], boxes, cardNumber, safetyTrack) != null;
+			return card.findBox(pawns[0], boxes, cardNumber, safetyTrack) != null
+					|| card.findBox(pawns[1], boxes, cardNumber, safetyTrack) != null;
 		}
 		if (cardNumber == 7) {
 			return canMovePawn(0) || canMovePawn(1) || canSplitSeven();
@@ -1151,6 +1190,24 @@ public class Controller {
 	}
 
 	/**
+	 * Tests whether the current card may be discarded without moving.
+	 * Card 11 may be folded when no pawn can move forward 11, even if an optional
+	 * swap is available.
+	 *
+	 * @return whether Fold is currently legal
+	 */
+	public boolean canFoldCurrentCard() {
+		if (!hasLegalMove()) {
+			return true;
+		}
+		if (getRuleCard().getCard() != 11) {
+			return false;
+		}
+		return !canMovePawn(0, MoveDirection.FORWARD)
+				&& !canMovePawn(1, MoveDirection.FORWARD);
+	}
+
+	/**
 	 * Tests one current-player pawn against every opponent pawn.
 	 *
 	 * @param ownPawnIndex current player's pawn index
@@ -1165,22 +1222,6 @@ public class Controller {
 				if (canSwapWithEnemy(ownPawnIndex, enemyPlayer, enemyPawn)) {
 					return true;
 				}
-			}
-		}
-		return false;
-	}
-
-	private boolean distinctDestinations(Square first, Square second, SafetyTrack safetyTrack) {
-		if (first == null || second == null) {
-			return false;
-		}
-		if (first != second) {
-			return true;
-		}
-		for (int i = 0; i < 2; i++) {
-			Square home = safetyTrack.getHomeSquare(i);
-			if (first == home && safetyTrack.getHomeSquare(1 - i).getOccupant() == null) {
-				return true;
 			}
 		}
 		return false;
@@ -1248,7 +1289,7 @@ public class Controller {
 
 		Pawn tmpPawn1=null,tmpPawn2=null;
 
-		Card tmpCard=deck.getCard();
+		Card tmpCard=getRuleCard();
 		SafetyTrack safetyTrack = safetyTracks[numSelectPlayer];
 
 		if(allPawns==true){
@@ -1310,7 +1351,7 @@ public class Controller {
 		if (numSelectPlayer < 0 || numSelectPlayer >= players.length) {
 			return 0;
 		}
-		Card currentCard = deck.getCard();
+		Card currentCard = getRuleCard();
 		Pawn[] currentPawns = players[numSelectPlayer].getPawns();
 		if (!(currentCard instanceof NumberSeven) || currentPawns.length != 2
 				|| firstPawnIndex < 0 || firstPawnIndex >= currentPawns.length
@@ -1395,7 +1436,7 @@ public class Controller {
 
 		Pawn tmpPawn1;
 
-		Card tmpCard=deck.getCard();
+		Card tmpCard=getRuleCard();
 		SafetyTrack safetyTrack = safetyTracks[numSelectPlayer];
 		tmpPawn1 = getChoosePawn(numPawn, numSelectPlayer);
 		Pawn tmpPawn2 = getChoosePawn(numEnemyPawn, enemyPlayerIndex);

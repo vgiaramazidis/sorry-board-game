@@ -80,7 +80,7 @@ public class Board {
 
 	private int count=0;
 
-	private boolean turn,currentCardHasLegalMove;
+	private boolean turn,currentCardCanFold;
 
 	private TurnManager turnManager;
 
@@ -345,7 +345,7 @@ public class Board {
 		turnManager.setNextPlayerIndex(snapshot.getNextPlayerIndex());
 		turn = false;
 		count = 0;
-		currentCardHasLegalMove = false;
+		currentCardCanFold = false;
 		pickCard = null;
 		Cards.setEnabled(true);
 		setFoldButtonEnabled(false);
@@ -423,9 +423,10 @@ public class Board {
 
 	private void prepareForNextDraw(boolean repeatTurn) {
 		int cardsLeft = control.getDeck().sum();
+		control.finishCurrentCard();
 		turn = false;
 		count = 0;
-		currentCardHasLegalMove = false;
+		currentCardCanFold = false;
 		turnManager.finishTurn(repeatTurn);
 		Cards.setEnabled(true);
 		setFoldButtonEnabled(false);
@@ -457,7 +458,7 @@ public class Board {
 		dialog.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent event) {
-				if (!currentCardHasLegalMove) {
+				if (currentCardCanFold) {
 					foldCurrentCard(dialog);
 				} else {
 					JOptionPane.showMessageDialog(dialog,
@@ -526,20 +527,13 @@ public class Board {
 			return !backward && control.hasLegalMove();
 		}
 		if (backward) {
-			if (cardNumber == 4) {
-				return control.canMovePawn(control.getSelectPawn());
-			}
-			return cardNumber == 10
-					&& control.getDeck().getCard().findBox(
-							control.getChoosePawn(control.getSelectPawn(), control.getSelectPlayer()),
-							control.getBoxes(), -1,
-							control.getSafetyTrack(control.getSelectPlayer())) != null;
+			return (cardNumber == 4 || cardNumber == 10)
+					&& control.canMovePawn(
+							control.getSelectPawn(), MoveDirection.BACKWARD);
 		}
 		if (cardNumber == 10) {
-			return control.getDeck().getCard().findBox(
-					control.getChoosePawn(control.getSelectPawn(), control.getSelectPlayer()),
-					control.getBoxes(), 10,
-					control.getSafetyTrack(control.getSelectPlayer())) != null;
+			return control.canMovePawn(
+					control.getSelectPawn(), MoveDirection.FORWARD);
 		}
 		return control.canMovePawn(control.getSelectPawn());
 	}
@@ -1238,6 +1232,12 @@ public class Board {
 
 			panel.add(changeP);
 
+			if (control.canFoldCurrentCard()) {
+				JButton fold = new JButton("Fold");
+				fold.addActionListener(event -> foldCurrentCard(choose));
+				panel.add(fold);
+			}
+
 			break;
 
 		}
@@ -1848,10 +1848,9 @@ public class Board {
 	private class FoldListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			if (turn && !currentCardHasLegalMove) {
+			if (turn && currentCardCanFold) {
 				foldCurrentCard(null);
 			}
-
 		}
 
 
@@ -1868,7 +1867,7 @@ public class Board {
 
 				turn = true;
 				count = 0;
-				currentCardHasLegalMove = false;
+				currentCardCanFold = false;
 				Cards.setEnabled(false);
 				setFoldButtonEnabled(false);
 
@@ -1880,7 +1879,6 @@ public class Board {
 
 				}
 				pickCard = control.pickedCard();
-				control.getDeck().removeCard();
 
 				if (drawnCardImage != null) {
 
@@ -1909,8 +1907,8 @@ public class Board {
 				GeneralGraph.add(drawnCardImage, JLayeredPane.MODAL_LAYER);
 
 				changeName();
-				currentCardHasLegalMove = control.hasLegalMove();
-				setFoldButtonEnabled(!currentCardHasLegalMove);
+				currentCardCanFold = control.canFoldCurrentCard();
+				setFoldButtonEnabled(currentCardCanFold);
 
 				if (pickCard.getDescription() != null) {
 					infoBox.append("\n\nCard: " + pickCard.getDescription());

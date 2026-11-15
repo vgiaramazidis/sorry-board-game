@@ -36,11 +36,13 @@ The pre-existing save at `~/.sorry-game/snapshot.properties` was inspected read-
 
 The smoke test found that Fold enabled the next draw but left the previous card and player text visible. The UI now clears the completed card and identifies the next player immediately after a move, Fold, or voluntary redraw. Turn-order behavior itself was already correct.
 
+A later card-flow audit found that the drawn card was removed before controller validation, so the following deck card could incorrectly control legal moves and execution. Drawing now retains one explicit current card until its move, redraw, or Fold completes. Regression tests cover cards 4, 10, Sorry!, every all-Start card state, and the optional card-11 Fold path.
+
 ## Deterministic automated game scenarios
 
 The JUnit suite now runs complete scripted routes from Start through the outer track and Safety into Home for 2-, 3-, and 4-player games. Every move is applied through `Controller.makeMove`, turn order advances through `TurnManager`, both winning pawns must reach Home, and the expected winner is asserted. These repeatable scenarios verify the rule state from setup to completion; they are not a claim that three long random human matches were played through the Swing dialogs.
 
-The same suite covers card 7 split movement, both card 10 directions, card 11 swapping, card 12 movement, a multiplayer Sorry replacement, every explicit first-player index, invalid and mismatched snapshots, unusable save locations, and POSIX permission denial when supported by the host.
+The same suite includes a complete two-player game that uses the real draw/move/Fold flow, draws all eleven card types, and reaches a winner. It also covers card 7 split movement (including a vacated-square split), both card 10 directions, optional card-11 Fold and swapping, card 12 movement, a multiplayer Sorry replacement, every explicit first-player index, invalid and mismatched snapshots, unusable save locations, and POSIX permission denial when supported by the host.
 
 ## Still requiring manual testing
 
